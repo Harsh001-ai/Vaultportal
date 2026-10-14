@@ -1,0 +1,16 @@
+# Root Directory Security Guard for VaultPortal
+# Protect internal application directories if DocumentRoot is mispointed to repo root
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^$ public/ [L]
+    RewriteRule (.*) public/$1 [L]
+</IfModule>
+
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(env|json|lock|md|xml|yml|yaml|ini|log|sql|php)$">
+        # Allow only index.php in public
+        <If "%{REQUEST_URI} !~ m#^/public/#">
+            Require all denied
+        </If>
+    </FilesMatch>
+</IfModule>

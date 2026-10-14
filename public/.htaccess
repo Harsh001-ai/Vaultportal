@@ -1,0 +1,26 @@
+# Public Web Root .htaccess for VaultPortal
+Options -Indexes
+Options +FollowSymLinks
+
+DirectorySlash Off
+ 
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Prevent direct access to hidden files
+    RewriteRule "(^|/)\." - [F]
+
+    # Deliver existing regular files directly; route directory and virtual endpoints through front controller
+    RewriteCond %{REQUEST_FILENAME} !-f
+
+    # Route all other requests through front controller
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

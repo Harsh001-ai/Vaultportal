@@ -1,0 +1,5 @@
+storage/exports/*
+!storage/exports/.gitkeep
+storage/temporary/*
+!storage/temporary/.gitkeep
+.env
