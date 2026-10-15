@@ -97,6 +97,9 @@
     <div class="app-main">
         <header class="app-header">
             <div class="header-left">
+                <button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open Navigation Menu">
+                    <?= \App\Helpers\Icon::render('menu', '', 20) ?>
+                </button>
                 <div class="header-search">
                     <?= \App\Helpers\Icon::render('search') ?>
                     <input type="text" id="global-search" placeholder="Search assets, users, files..." />

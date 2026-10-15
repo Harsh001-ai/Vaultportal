@@ -649,32 +649,244 @@ a:hover {
 .quota-bar-fill.warning { background: var(--color-warning); }
 .quota-bar-fill.danger { background: var(--color-danger); }
 
-/* Responsive adjustments */
+/* ==========================================================================
+   Mobile & Responsive Enhancements - UI/UX Pro Max Multi-Device System
+   ========================================================================== */
+
+/* Mobile hamburger button */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-sm);
+  padding: 0.4rem;
+  color: var(--text-main);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.mobile-menu-btn:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--color-primary);
+}
+
+/* Base Responsive Elements */
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+}
+
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tablet & Mobile Breakpoint (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .app-sidebar {
+    width: 240px;
+  }
+
+  .app-header {
+    padding: 0 1.25rem;
+  }
+
+  .content-body {
+    padding: 1.25rem;
+  }
+
+  .stat-grid-vault {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Mobile & Small Tablet Breakpoint (max-width: 768px) */
 @media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .sidebar-header #sidebar-toggle {
+    display: inline-flex !important;
+  }
+
   .app-sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
+    width: 280px;
+    max-width: 85vw;
     transform: translateX(-100%);
+    box-shadow: var(--shadow-xl);
+    z-index: 50;
   }
+
   .app-sidebar.open {
     transform: translateX(0);
   }
+
   .sidebar-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 35;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 45;
     display: none;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
   }
+
   .sidebar-overlay.show {
     display: block;
+    opacity: 1;
   }
+
+  .app-header {
+    height: 58px;
+    padding: 0 1rem;
+  }
+
   .header-search {
     display: none;
   }
+
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .header-right .badge-vault {
+    display: none;
+  }
+
   .content-body {
+    padding: 1rem 0.85rem;
+  }
+
+  /* Form & Filter Bars on Mobile */
+  form[action="/assets"],
+  form[action="/admin/assets"],
+  form[action="/admin/users"],
+  form[action="/admin/audit-log"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  form[action="/assets"] > div,
+  form[action="/admin/assets"] > div,
+  form[action="/admin/users"] > div,
+  form[action="/admin/audit-log"] > div,
+  form[action="/assets"] > select,
+  form[action="/admin/assets"] > select,
+  form[action="/admin/users"] > select,
+  form[action="/admin/audit-log"] > select,
+  form[action="/assets"] > button,
+  form[action="/admin/assets"] > button,
+  form[action="/admin/users"] > button,
+  form[action="/admin/audit-log"] > button,
+  form[action="/assets"] > a,
+  form[action="/admin/assets"] > a,
+  form[action="/admin/users"] > a,
+  form[action="/admin/audit-log"] > a {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Stat cards stack on small screens */
+  .stat-grid-vault,
+  div[style*="grid-template-columns: repeat(auto-fit"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Page Header stack */
+  div[style*="justify-content: space-between"][style*="margin-bottom: 1.5rem"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.85rem !important;
+  }
+
+  div[style*="justify-content: space-between"][style*="margin-bottom: 1.5rem"] > div:last-child {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem !important;
+  }
+
+  div[style*="justify-content: space-between"][style*="margin-bottom: 1.5rem"] > div:last-child a,
+  div[style*="justify-content: space-between"][style*="margin-bottom: 1.5rem"] > div:last-child button {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Modal responsiveness */
+  .modal-box-vault {
+    max-width: 95vw !important;
+    margin: 0.75rem;
+    max-height: 94vh;
+  }
+
+  .modal-header-vault,
+  .modal-body-vault,
+  .modal-footer-vault {
     padding: 1rem;
+  }
+
+  /* Dropzone on Mobile */
+  .dropzone-vault {
+    padding: 1.75rem 1rem;
+  }
+
+  .dropzone-vault .dropzone-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Responsive Settings Grid */
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Card padding on small devices */
+  .card-surface {
+    padding: 1rem !important;
+  }
+
+  /* Action buttons inside table cells */
+  .table-vault td, .table-vault th {
+    padding: 0.65rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Small Smartphone Breakpoint (max-width: 480px) */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.2rem !important;
+  }
+
+  .btn-vault {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .stat-card {
+    padding: 0.85rem;
+  }
+
+  .stat-card .stat-value {
+    font-size: 1.35rem;
+  }
+
+  /* Compact Auth Card */
+  .card-surface[style*="padding: 2rem"] {
+    padding: 1.25rem !important;
   }
 }

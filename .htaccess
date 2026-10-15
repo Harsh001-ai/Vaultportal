@@ -8,8 +8,8 @@
 
 <IfModule mod_authz_core.c>
     <FilesMatch "\.(env|json|lock|md|xml|yml|yaml|ini|log|sql|php)$">
-        # Allow only index.php in public
-        <If "%{REQUEST_URI} !~ m#^/public/#">
+        # Allow only index.php in public (supports root and subfolder paths like /Vaultportal/public/)
+        <If "%{REQUEST_URI} !~ m#/public/#">
             Require all denied
         </If>
     </FilesMatch>

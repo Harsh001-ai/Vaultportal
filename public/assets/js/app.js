@@ -101,15 +101,19 @@ window.Vault = {
 document.addEventListener('DOMContentLoaded', () => {
     // Mobile sidebar toggle
     const toggleBtn = document.getElementById('sidebar-toggle');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const sidebar = document.querySelector('.app-sidebar');
     const overlay = document.getElementById('sidebar-overlay');
 
-    if (toggleBtn && sidebar) {
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            if (overlay) overlay.classList.toggle('show');
-        });
-    }
+    const toggleSidebar = () => {
+        if (!sidebar) return;
+        const isOpen = sidebar.classList.toggle('open');
+        if (overlay) overlay.classList.toggle('show', isOpen);
+        document.body.style.overflow = (isOpen && window.innerWidth <= 768) ? 'hidden' : '';
+    };
+
+    if (toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleSidebar);
 
     if (overlay) {
         overlay.addEventListener('click', () => {
