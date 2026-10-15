@@ -1,6 +1,6 @@
-# VaultPortal Enterprise — Secure Asset Collection & Delivery Portal
+# Workspace — Secure Asset Collection & Delivery Portal
 
-VaultPortal is a secure, enterprise-grade digital asset collection, organization, and delivery system built with a PHP 8.2+ MVC architecture, MariaDB/MySQL relational backend, UI/UX Pro Max design system tokens, and comprehensive item-level audit trails.
+Workspace is a secure, enterprise-grade digital asset collection, organization, and delivery system built with a PHP 8.2+ MVC architecture, MariaDB/MySQL relational backend, UI/UX Pro Max design system tokens, and comprehensive item-level audit trails.
 
 ---
 

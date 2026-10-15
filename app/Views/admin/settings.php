@@ -11,7 +11,7 @@
 
         <div style="margin-bottom: 1.25rem;">
             <label for="app_name" style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.35rem; color: var(--text-main);">Portal Brand Name</label>
-            <input type="text" id="app_name" name="app_name" value="<?= htmlspecialchars($settings['app_name'] ?? 'VaultPortal Enterprise') ?>" style="width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.9rem;" />
+            <input type="text" id="app_name" name="app_name" value="<?= htmlspecialchars($settings['app_name'] ?? 'Workspace') ?>" style="width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.9rem;" />
         </div>
 
         <div style="margin-bottom: 1.25rem;">

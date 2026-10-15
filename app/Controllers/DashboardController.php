@@ -67,7 +67,7 @@ class DashboardController {
         );
 
         Response::view('user/dashboard', [
-            'title' => 'My Dashboard — VaultPortal',
+            'title' => 'My Dashboard — Workspace',
             'user' => $user,
             'quota' => $quota,
             'used' => $used,
@@ -142,7 +142,7 @@ class DashboardController {
         );
 
         Response::view('admin/dashboard', [
-            'title' => 'Administrator Workspace — VaultPortal',
+            'title' => 'Administrator Workspace — Workspace',
             'user' => $user,
             'userMetrics' => $userMetrics,
             'assetMetrics' => $assetMetrics,

@@ -1,4 +1,4 @@
-# Root Directory Security Guard for VaultPortal
+# Root Directory Security Guard for Workspace
 # Protect internal application directories if DocumentRoot is mispointed to repo root
 <IfModule mod_rewrite.c>
     RewriteEngine On

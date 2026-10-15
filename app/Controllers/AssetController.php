@@ -53,7 +53,7 @@ class AssetController {
         );
 
         Response::view('user/assets', [
-            'title' => 'My Assets — VaultPortal',
+            'title' => 'My Assets — Workspace',
             'user' => $user,
             'assets' => $assets,
             'collections' => $collections,
@@ -119,7 +119,7 @@ class AssetController {
         $collections = Database::fetchAll("SELECT id, name FROM collections ORDER BY name ASC");
 
         Response::view('admin/assets', [
-            'title' => 'All Assets & Selection Manager — VaultPortal',
+            'title' => 'All Assets & Selection Manager — Workspace',
             'user' => $user,
             'assets' => $assets,
             'users' => $users,

@@ -12,7 +12,7 @@
 </div>
 
 <!-- Stat Cards Grid -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" style="margin-bottom: 1.5rem;">
     <!-- Total Assets -->
     <div class="card-surface stat-card">
         <div>
@@ -93,105 +93,109 @@
     <div id="upload-progress-list" style="margin-top: 1rem;"></div>
 </div>
 
-<!-- Recent Assets & Activity Two-Column Layout -->
-<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+<!-- Recent Assets & Activity Responsive Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Recent Assets Table -->
-    <div class="card-surface" style="padding: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <h2 style="font-size: 1rem; font-weight: 700; margin: 0;">Recent Uploads</h2>
-            <a href="/assets" style="font-size: 0.8rem; font-weight: 600;">View all →</a>
-        </div>
+    <div class="lg:col-span-2 space-y-6">
+        <div class="card-surface" style="padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 style="font-size: 1rem; font-weight: 700; margin: 0;">Recent Uploads</h2>
+                <a href="/assets" style="font-size: 0.8rem; font-weight: 600;">View all →</a>
+            </div>
 
-        <?php if (empty($recentAssets)): ?>
-            <div style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem;">
-                No uploads found. Drag and drop your first file above to get started.
-            </div>
-        <?php else: ?>
-            <div class="table-container" style="border: none;">
-                <table class="table-vault">
-                    <thead>
-                        <tr>
-                            <th>File Name</th>
-                            <th>Collection</th>
-                            <th>Size</th>
-                            <th>Status</th>
-                            <th style="text-align: right;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recentAssets as $a): ?>
+            <?php if (empty($recentAssets)): ?>
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem;">
+                    No uploads found. Drag and drop your first file above to get started.
+                </div>
+            <?php else: ?>
+                <div class="w-full overflow-x-auto table-container" style="border: none;">
+                    <table class="table-vault">
+                        <thead>
                             <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <div class="file-icon-box <?= in_array($a['file_extension'], ['jpg','jpeg','png','webp','gif']) ? 'image' : (in_array($a['file_extension'], ['pdf','doc','docx']) ? 'document' : 'spreadsheet') ?>">
-                                            <?= strtoupper($a['file_extension']) ?>
-                                        </div>
-                                        <div>
-                                            <div style="font-weight: 600; font-size: 0.85rem; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                <?= htmlspecialchars($a['original_filename']) ?>
-                                            </div>
-                                            <div style="font-size: 0.725rem; color: var(--text-muted); font-family: monospace;">
-                                                <?= substr($a['sha256_checksum'], 0, 12) ?>...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span style="font-size: 0.8rem; color: var(--text-muted);">
-                                        <?= htmlspecialchars($a['collection_name'] ?? 'Unorganized') ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span style="font-size: 0.8rem; font-weight: 500;">
-                                        <?= round($a['file_size_bytes'] / 1024, 1) ?> KB
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="badge-vault badge-<?= $a['status'] ?>">
-                                        <?= ucfirst($a['status']) ?>
-                                    </span>
-                                </td>
-                                <td style="text-align: right;">
-                                    <?php if ($a['status'] === 'ready'): ?>
-                                        <a href="/assets/<?= $a['id'] ?>/download" class="btn-vault btn-secondary btn-sm" title="Download Asset">
-                                            <?= \App\Helpers\Icon::render('download', '', 14) ?>
-                                        </a>
-                                    <?php else: ?>
-                                        <span title="File is quarantined for review" style="color: var(--color-danger); cursor: help;">
-                                            <?= \App\Helpers\Icon::render('shield-alert', '', 16) ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </td>
+                                <th>File Name</th>
+                                <th>Collection</th>
+                                <th>Size</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Action</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recentAssets as $a): ?>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                            <div class="file-icon-box <?= in_array($a['file_extension'], ['jpg','jpeg','png','webp','gif']) ? 'image' : (in_array($a['file_extension'], ['pdf','doc','docx']) ? 'document' : 'spreadsheet') ?>">
+                                                <?= strtoupper($a['file_extension']) ?>
+                                            </div>
+                                            <div>
+                                                <div style="font-weight: 600; font-size: 0.85rem; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <?= htmlspecialchars($a['original_filename']) ?>
+                                                </div>
+                                                <div style="font-size: 0.725rem; color: var(--text-muted); font-family: monospace;">
+                                                    <?= substr($a['sha256_checksum'], 0, 12) ?>...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 0.8rem; color: var(--text-muted);">
+                                            <?= htmlspecialchars($a['collection_name'] ?? 'Unorganized') ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 0.8rem; font-weight: 500;">
+                                            <?= round($a['file_size_bytes'] / 1024, 1) ?> KB
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge-vault badge-<?= $a['status'] ?>">
+                                            <?= ucfirst($a['status']) ?>
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <?php if ($a['status'] === 'ready'): ?>
+                                            <a href="/assets/<?= $a['id'] ?>/download" class="btn-vault btn-secondary btn-sm" title="Download Asset">
+                                                <?= \App\Helpers\Icon::render('download', '', 14) ?>
+                                            </a>
+                                        <?php else: ?>
+                                            <span title="File is quarantined for review" style="color: var(--color-danger); cursor: help;">
+                                                <?= \App\Helpers\Icon::render('shield-alert', '', 16) ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 
     <!-- Recent Activity -->
-    <div class="card-surface" style="padding: 1.25rem;">
-        <h2 style="font-size: 1rem; font-weight: 700; margin: 0 0 1rem;">Recent Activity</h2>
-        <?php if (empty($activities)): ?>
-            <div style="text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
-                No recent activity recorded.
-            </div>
-        <?php else: ?>
-            <div style="display: flex; flex-direction: column; gap: 0.85rem;">
-                <?php foreach ($activities as $act): ?>
-                    <div style="display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.825rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.65rem;">
-                        <div style="color: var(--color-primary); margin-top: 0.15rem;">
-                            <?= \App\Helpers\Icon::render('history', '', 16) ?>
+    <div class="lg:col-span-1 space-y-6">
+        <div class="card-surface" style="padding: 1.25rem;">
+            <h2 style="font-size: 1rem; font-weight: 700; margin: 0 0 1rem;">Recent Activity</h2>
+            <?php if (empty($activities)): ?>
+                <div style="text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+                    No recent activity recorded.
+                </div>
+            <?php else: ?>
+                <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                    <?php foreach ($activities as $act): ?>
+                        <div style="display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.825rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.65rem;">
+                            <div style="color: var(--color-primary); margin-top: 0.15rem;">
+                                <?= \App\Helpers\Icon::render('history', '', 16) ?>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; color: var(--text-main);"><?= htmlspecialchars($act['action']) ?></div>
+                                <div style="font-size: 0.725rem; color: var(--text-muted);"><?= date('M j, Y H:i', strtotime($act['created_at'])) ?></div>
+                            </div>
                         </div>
-                        <div>
-                            <div style="font-weight: 600; color: var(--text-main);"><?= htmlspecialchars($act['action']) ?></div>
-                            <div style="font-size: 0.725rem; color: var(--text-muted);"><?= date('M j, Y H:i', strtotime($act['created_at'])) ?></div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

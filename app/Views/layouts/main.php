@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?= \App\Session::getCsrfToken() ?>">
-    <title><?= htmlspecialchars($title ?? 'VaultPortal Enterprise') ?></title>
+    <title><?= htmlspecialchars($title ?? 'Workspace') ?></title>
     <!-- Modern Inter Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,10 +21,13 @@
     <aside class="app-sidebar">
         <div class="sidebar-header">
             <div class="brand-badge">
-                <div class="brand-icon">
-                    <?= \App\Helpers\Icon::render('vault', '', 20) ?>
-                </div>
-                <span>VaultPortal</span>
+                <a href="/" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit;">
+                    <img src="/assets/images/logo.jpg" alt="Workspace Logo" class="brand-logo-img h-9 w-auto object-contain" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" />
+                    <span class="brand-icon" style="display: none;">
+                        <?= \App\Helpers\Icon::render('vault', '', 20) ?>
+                    </span>
+                    <span class="brand-name">Workspace</span>
+                </a>
             </div>
             <button id="sidebar-toggle" style="background: none; border: none; color: #94a3b8; cursor: pointer; display: none;" aria-label="Toggle Menu">
                 <?= \App\Helpers\Icon::render('x', '', 18) ?>
@@ -117,29 +120,31 @@
             </div>
         </header>
 
-        <main class="content-body">
-            <!-- Toast notification messages -->
-            <?php if (!empty($success)): ?>
-                <div style="background: var(--color-success-subtle); border-left: 4px solid var(--color-success); border-radius: var(--border-radius-sm); padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.875rem; color: #065f46; display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <?= \App\Helpers\Icon::render('check-circle', '', 18) ?>
-                        <span><?= htmlspecialchars($success) ?></span>
+        <main class="content-body w-full">
+            <div class="w-full min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Toast notification messages -->
+                <?php if (!empty($success)): ?>
+                    <div style="background: var(--color-success-subtle); border-left: 4px solid var(--color-success); border-radius: var(--border-radius-sm); padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.875rem; color: #065f46; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <?= \App\Helpers\Icon::render('check-circle', '', 18) ?>
+                            <span><?= htmlspecialchars($success) ?></span>
+                        </div>
+                        <button type="button" style="background: none; border: none; cursor: pointer; color: #065f46;" onclick="this.parentElement.remove()">✕</button>
                     </div>
-                    <button type="button" style="background: none; border: none; cursor: pointer; color: #065f46;" onclick="this.parentElement.remove()">✕</button>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
 
-            <?php if (!empty($error)): ?>
-                <div style="background: var(--color-danger-subtle); border-left: 4px solid var(--color-danger); border-radius: var(--border-radius-sm); padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.875rem; color: #991b1b; display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <?= \App\Helpers\Icon::render('alert-triangle', '', 18) ?>
-                        <span><?= htmlspecialchars($error) ?></span>
+                <?php if (!empty($error)): ?>
+                    <div style="background: var(--color-danger-subtle); border-left: 4px solid var(--color-danger); border-radius: var(--border-radius-sm); padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.875rem; color: #991b1b; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <?= \App\Helpers\Icon::render('alert-triangle', '', 18) ?>
+                            <span><?= htmlspecialchars($error) ?></span>
+                        </div>
+                        <button type="button" style="background: none; border: none; cursor: pointer; color: #991b1b;" onclick="this.parentElement.remove()">✕</button>
                     </div>
-                    <button type="button" style="background: none; border: none; cursor: pointer; color: #991b1b;" onclick="this.parentElement.remove()">✕</button>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
 
-            <?= $content ?>
+                <?= $content ?>
+            </div>
         </main>
     </div>
 </div>

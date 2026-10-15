@@ -44,7 +44,7 @@ class AuditController {
         ];
 
         Response::view('admin/audit_log', [
-            'title' => 'Download History & Delivery Audit Log — VaultPortal',
+            'title' => 'Download History & Delivery Audit Log — Workspace',
             'user' => $user,
             'records' => $auditData['records'],
             'total' => $auditData['total'],

@@ -189,7 +189,7 @@ CREATE TABLE `system_settings` (
 
 -- Initial System Settings
 INSERT INTO `system_settings` (`setting_key`, `setting_value`, `description`) VALUES
-('app_name', 'VaultPortal Enterprise', 'Portal Brand Name'),
+('app_name', 'Workspace', 'Portal Brand Name'),
 ('allowed_extensions', 'jpg,jpeg,png,webp,gif,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,csv,zip', 'Comma-separated allowed file extensions'),
 ('max_upload_size_mb', '100', 'Maximum single file upload size in megabytes'),
 ('default_user_quota_mb', '1024', 'Default quota per user in megabytes (1GB)'),

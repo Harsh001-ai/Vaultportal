@@ -26,7 +26,7 @@ class CollectionController {
         $collections = Database::fetchAll($sql, $params);
 
         Response::view('user/collections', [
-            'title' => 'Asset Collections — VaultPortal',
+            'title' => 'Asset Collections — Workspace',
             'user' => $user,
             'collections' => $collections,
             'isAdmin' => $isAdmin,

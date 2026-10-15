@@ -8,7 +8,7 @@ use App\Services\ArchiveService;
 use App\Services\AuditService;
 use App\Services\NotificationService;
 
-echo "[" . date('Y-m-d H:i:s') . "] VaultPortal CLI Worker started.\n";
+echo "[" . date('Y-m-d H:i:s') . "] Workspace CLI Worker started.\n";
 
 $isDaemon = in_array('--daemon', $argv);
 

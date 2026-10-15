@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?= \App\Session::getCsrfToken() ?>">
-    <title><?= htmlspecialchars($title ?? 'VaultPortal') ?></title>
+    <title><?= htmlspecialchars($title ?? 'Workspace') ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,10 +14,13 @@
 
 <div style="width: 100%; max-width: 440px;">
     <div style="text-align: center; margin-bottom: 2rem;">
-        <div class="brand-icon" style="width: 44px; height: 44px; margin: 0 auto 0.75rem; border-radius: var(--border-radius-md);">
-            <?= \App\Helpers\Icon::render('vault', '', 24) ?>
+        <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+            <img src="/assets/images/logo.jpg" alt="Workspace Logo" class="brand-logo-img h-12 w-auto object-contain" style="max-height: 48px;" onerror="this.onerror=null; this.style.display='none'; document.getElementById('auth-fallback-icon').style.display='inline-flex';" />
+            <div id="auth-fallback-icon" class="brand-icon" style="display: none; width: 44px; height: 44px; border-radius: var(--border-radius-md);">
+                <?= \App\Helpers\Icon::render('vault', '', 24) ?>
+            </div>
         </div>
-        <h1 style="font-size: 1.35rem; font-weight: 700; margin: 0; color: var(--text-main); letter-spacing: -0.02em;">VaultPortal Enterprise</h1>
+        <h1 style="font-size: 1.35rem; font-weight: 700; margin: 0; color: var(--text-main); letter-spacing: -0.02em;">Workspace</h1>
         <p style="font-size: 0.825rem; color: var(--text-muted); margin: 0.25rem 0 0;">Secure Digital Asset Collection & Delivery System</p>
     </div>
 

@@ -48,7 +48,7 @@ class UserController {
         );
 
         Response::view('admin/users', [
-            'title' => 'User Management & Quotas — VaultPortal',
+            'title' => 'User Management & Quotas — Workspace',
             'user' => $user,
             'users' => $users,
             'search' => $search,

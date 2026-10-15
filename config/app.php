@@ -2,7 +2,7 @@
 // config/app.php
 
 return [
-    'name' => 'VaultPortal Enterprise',
+    'name' => 'Workspace',
     'env' => getenv('APP_ENV') ?: 'development',
     'debug' => getenv('APP_DEBUG') !== 'false',
     'url' => getenv('APP_URL') ?: 'http://localhost:8000',

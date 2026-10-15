@@ -18,7 +18,7 @@ class SettingsController {
         }
 
         Response::view('admin/settings', [
-            'title' => 'System Settings & Security Policies — VaultPortal',
+            'title' => 'System Settings & Security Policies — Workspace',
             'user' => $user,
             'settings' => $settings,
             'success' => Session::flash('success'),
@@ -28,7 +28,7 @@ class SettingsController {
 
     public function update(Request $request): void {
         $admin = AuthService::currentUser();
-        $appName = trim($request->input('app_name', 'VaultPortal Enterprise'));
+        $appName = trim($request->input('app_name', 'Workspace'));
         $allowedExtensions = trim($request->input('allowed_extensions', ''));
         $maxUploadSize = (int)$request->input('max_upload_size_mb', 100);
         $exportExpiry = (int)$request->input('export_expiry_hours', 24);

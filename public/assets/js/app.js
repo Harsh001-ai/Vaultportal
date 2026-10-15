@@ -1,5 +1,5 @@
 // public/assets/js/app.js
-// Enterprise VaultPortal Core Utilities
+// Enterprise Workspace Core Utilities
 
 window.Vault = {
     csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',

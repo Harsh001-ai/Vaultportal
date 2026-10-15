@@ -33,7 +33,7 @@ class ExportController {
         }
 
         Response::view('admin/export_center', [
-            'title' => 'Export Center & Archive Packaging — VaultPortal',
+            'title' => 'Export Center & Archive Packaging — Workspace',
             'user' => $user,
             'jobs' => $jobs,
             'success' => Session::flash('success'),

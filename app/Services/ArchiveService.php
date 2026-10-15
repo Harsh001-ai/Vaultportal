@@ -301,7 +301,7 @@ class ArchiveService {
         }
 
         return [
-            'portal' => 'VaultPortal Enterprise',
+            'portal' => 'Workspace',
             'generated_at' => date('c'),
             'total_assets' => count($assets),
             'assets' => $list

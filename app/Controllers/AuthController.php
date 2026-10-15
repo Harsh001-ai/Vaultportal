@@ -16,7 +16,7 @@ class AuthController {
         }
 
         Response::view('auth/login', [
-            'title' => 'Sign In — VaultPortal Enterprise',
+            'title' => 'Sign In — Workspace',
             'error' => Session::flash('error'),
             'success' => Session::flash('success')
         ], 'auth');
@@ -63,7 +63,7 @@ class AuthController {
         }
 
         Response::view('auth/register', [
-            'title' => 'Register Account — VaultPortal',
+            'title' => 'Register Account — Workspace',
             'error' => Session::flash('error'),
             'success' => Session::flash('success')
         ], 'auth');
@@ -82,7 +82,7 @@ class AuthController {
 
             $user = AuthService::register($name, $email, $password, 'user');
             Session::set('user', $user);
-            Session::flash('success', 'Account created successfully! Welcome to VaultPortal.');
+            Session::flash('success', 'Account created successfully! Welcome to Workspace.');
 
             if ($request->isAjax()) {
                 Response::success([
@@ -113,7 +113,7 @@ class AuthController {
         }
 
         Response::view('auth/setup', [
-            'title' => 'Initial Administrator Setup — VaultPortal',
+            'title' => 'Initial Administrator Setup — Workspace',
             'error' => Session::flash('error')
         ], 'auth');
     }

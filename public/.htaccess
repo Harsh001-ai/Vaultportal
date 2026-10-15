@@ -1,4 +1,4 @@
-# Public Web Root .htaccess for VaultPortal
+# Public Web Root .htaccess for Workspace
 Options -Indexes
 Options +FollowSymLinks
 

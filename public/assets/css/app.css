@@ -1,5 +1,5 @@
 /* public/assets/css/app.css */
-/* UI/UX Pro Max Design System & Tokens - VaultPortal Enterprise */
+/* UI/UX Pro Max Design System & Tokens - Workspace */
 
 :root {
   /* Color Palette - Deep Indigo & Modern Slate Neutrals */
@@ -119,6 +119,25 @@ a:hover {
   font-size: 1.05rem;
   color: #ffffff;
   letter-spacing: -0.01em;
+  min-width: 0;
+}
+
+.brand-badge a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.brand-logo-img {
+  height: 2.25rem;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  border-radius: var(--border-radius-sm);
+  display: block;
 }
 
 .brand-icon {
@@ -295,8 +314,10 @@ a:hover {
 }
 
 .content-body {
-  padding: 1.75rem;
+  padding: 1.5rem 0;
   flex: 1;
+  width: 100%;
+  min-width: 0;
 }
 
 /* Cards & Surfaces */
@@ -449,7 +470,9 @@ a:hover {
 
 /* Tables */
 .table-container {
+  width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius-md);
   background: #ffffff;
@@ -457,6 +480,7 @@ a:hover {
 
 .table-vault {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   text-align: left;
   font-size: 0.85rem;
@@ -888,5 +912,114 @@ img, svg, video {
   /* Compact Auth Card */
   .card-surface[style*="padding: 2rem"] {
     padding: 1.25rem !important;
+  }
+}
+
+/* ==========================================================================
+   Responsive Utilities & Grid Architecture (Tailwind-compatible Tokens)
+   ========================================================================== */
+
+.w-full {
+  width: 100% !important;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.max-w-7xl {
+  max-width: 80rem !important; /* 1280px */
+}
+
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.px-4 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.overflow-x-auto {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.h-9 {
+  height: 2.25rem !important; /* 36px */
+}
+
+.h-12 {
+  height: 3rem !important; /* 48px */
+}
+
+.w-auto {
+  width: auto !important;
+}
+
+.object-contain {
+  object-fit: contain !important;
+}
+
+/* Flexible Grid Utility System */
+.grid {
+  display: grid !important;
+}
+
+/* CRITICAL: Enforce min-width: 0 on all direct grid children to prevent table blowouts */
+.grid > * {
+  min-width: 0;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+
+.gap-4 {
+  gap: 1rem !important;
+}
+
+.gap-6 {
+  gap: 1.5rem !important;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem !important;
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 640px) {
+  .sm\:px-6 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:px-8 {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+  .lg\:col-span-1 {
+    grid-column: span 1 / span 1 !important;
+  }
+  .lg\:col-span-2 {
+    grid-column: span 2 / span 2 !important;
   }
 }
