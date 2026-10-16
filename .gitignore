@@ -2,4 +2,6 @@ storage/exports/*
 !storage/exports/.gitkeep
 storage/temporary/*
 !storage/temporary/.gitkeep
+storage/uploads/*
+!storage/uploads/.gitkeep
 .env
