@@ -203,6 +203,8 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  max-height: 64px;
+  overflow: hidden;
 }
 
 .brand-badge {
@@ -214,6 +216,8 @@ a:hover {
   color: #ffffff;
   letter-spacing: -0.01em;
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .brand-badge a {
@@ -223,15 +227,20 @@ a:hover {
   text-decoration: none;
   color: inherit;
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-.brand-logo-img {
-  height: 2.25rem;
-  width: auto;
-  max-width: 140px;
-  object-fit: contain;
+.brand-logo-img,
+img.brand-logo-img {
+  height: 2.25rem !important;
+  max-height: 36px !important;
+  width: auto !important;
+  max-width: 140px !important;
+  object-fit: contain !important;
   border-radius: var(--border-radius-sm);
-  display: block;
+  display: block !important;
+  flex-shrink: 0 !important;
 }
 
 .brand-icon {

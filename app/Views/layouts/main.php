@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- UI/UX Pro Max Application Styles -->
-    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/app.css?v=2.2">
 </head>
 <body>
 <div class="app-wrapper">
@@ -30,10 +30,10 @@
 
     <!-- Application Sidebar -->
     <aside class="app-sidebar">
-        <div class="sidebar-header">
-            <div class="brand-badge">
-                <a href="/" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit;">
-                    <img src="/assets/images/logo.jpg" alt="Workspace Logo" class="brand-logo-img h-9 w-auto object-contain" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" />
+        <div class="sidebar-header" style="overflow: hidden; max-height: 64px;">
+            <div class="brand-badge" style="overflow: hidden; max-width: 100%;">
+                <a href="/" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; max-width: 100%; overflow: hidden;">
+                    <img src="/assets/images/logo.jpg" alt="Workspace Logo" class="brand-logo-img h-9 w-auto object-contain" height="36" style="height: 36px !important; max-height: 36px !important; width: auto !important; max-width: 140px !important; object-fit: contain !important; display: block; flex-shrink: 0;" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='inline-flex';" />
                     <span class="brand-icon" style="display: none;">
                         <?= \App\Helpers\Icon::render('vault', '', 20) ?>
                     </span>
@@ -189,8 +189,8 @@
 </div>
 
 <!-- Global Scripts -->
-<script src="/assets/js/app.js"></script>
-<script src="/assets/js/uploader.js"></script>
-<script src="/assets/js/export.js"></script>
+<script src="/assets/js/app.js?v=2.2"></script>
+<script src="/assets/js/uploader.js?v=2.2"></script>
+<script src="/assets/js/export.js?v=2.2"></script>
 </body>
 </html>

@@ -19,14 +19,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/app.css?v=2.2">
 </head>
 <body style="background-color: var(--bg-app); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem;">
 
 <div style="width: 100%; max-width: 440px;">
     <div style="text-align: center; margin-bottom: 2rem;">
         <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
-            <img src="/assets/images/logo.jpg" alt="Workspace Logo" class="brand-logo-img h-12 w-auto object-contain" style="max-height: 48px;" onerror="this.onerror=null; this.style.display='none'; document.getElementById('auth-fallback-icon').style.display='inline-flex';" />
+            <img src="/assets/images/logo.jpg" alt="Workspace Logo" class="brand-logo-img h-12 w-auto object-contain" height="48" style="height: 48px !important; max-height: 48px !important; width: auto !important; max-width: 160px !important; object-fit: contain !important; display: block; margin: 0 auto;" onerror="this.onerror=null; this.style.display='none'; document.getElementById('auth-fallback-icon').style.display='inline-flex';" />
             <div id="auth-fallback-icon" class="brand-icon" style="display: none; width: 44px; height: 44px; border-radius: var(--border-radius-md);">
                 <?= \App\Helpers\Icon::render('vault', '', 24) ?>
             </div>
@@ -44,6 +44,6 @@
     </div>
 </div>
 
-<script src="/assets/js/app.js"></script>
+<script src="/assets/js/app.js?v=2.2"></script>
 </body>
 </html>
