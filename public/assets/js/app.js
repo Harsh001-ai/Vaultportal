@@ -94,11 +94,84 @@ window.Vault = {
         const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    },
+
+    // Theme Management
+    getTheme() {
+        return document.documentElement.getAttribute('data-theme') || 
+               localStorage.getItem('workspace_theme') || 
+               (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    },
+
+    setTheme(theme) {
+        if (theme !== 'dark' && theme !== 'light') {
+            theme = 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+        try {
+            localStorage.setItem('workspace_theme', theme);
+        } catch (e) {}
+        this.updateThemeUI(theme);
+    },
+
+    toggleTheme() {
+        const current = this.getTheme();
+        const next = current === 'dark' ? 'light' : 'dark';
+        this.setTheme(next);
+        this.toast(`Switched to ${next === 'dark' ? 'Dark' : 'Light'} Mode`, 'info');
+    },
+
+    updateThemeUI(theme) {
+        const toggleBtn = document.getElementById('theme-toggle-btn');
+        if (toggleBtn) {
+            const label = toggleBtn.querySelector('.theme-label-text');
+            if (label) {
+                label.textContent = theme === 'dark' ? 'Dark' : 'Light';
+            }
+        }
+        document.querySelectorAll('[data-theme-choice]').forEach(el => {
+            if (el.getAttribute('data-theme-choice') === theme) {
+                el.classList.add('active');
+            } else {
+                el.classList.remove('active');
+            }
+        });
     }
 };
 
 // Global DOM ready listener
 document.addEventListener('DOMContentLoaded', () => {
+    // Theme toggle setup
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            Vault.toggleTheme();
+        });
+    }
+
+    document.querySelectorAll('[data-set-theme]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetTheme = btn.getAttribute('data-set-theme');
+            Vault.setTheme(targetTheme);
+            Vault.toast(`Switched to ${targetTheme === 'dark' ? 'Dark' : 'Light'} Mode`, 'info');
+        });
+    });
+
+    Vault.updateThemeUI(Vault.getTheme());
+
+    // Button micro-interactions: Form submit loading animation
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', (e) => {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn && !submitBtn.classList.contains('no-spin')) {
+                if (!form.checkValidity || form.checkValidity()) {
+                    submitBtn.classList.add('is-loading');
+                }
+            }
+        });
+    });
+
     // Mobile sidebar toggle
     const toggleBtn = document.getElementById('sidebar-toggle');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');

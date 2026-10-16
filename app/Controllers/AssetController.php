@@ -14,12 +14,19 @@ use Exception;
 class AssetController {
     public function userAssets(Request $request): void {
         $user = AuthService::currentUser();
+        $isAdmin = ($user['role'] === 'admin');
         $search = trim($request->query('search', ''));
-        $collectionId = $request->query('collection');
+        $collectionParam = $request->query('collection') ?? $request->query('collection_id') ?? $request->query('folder_id');
+        $collectionId = (!empty($collectionParam) && is_numeric($collectionParam)) ? (int)$collectionParam : null;
         $status = $request->query('status');
 
-        $where = ["a.uploader_id = :uid", "a.deleted_at IS NULL"];
-        $params = ['uid' => $user['id']];
+        $where = ["a.deleted_at IS NULL"];
+        $params = [];
+
+        if (!$isAdmin) {
+            $where[] = "a.uploader_id = :uid";
+            $params['uid'] = $user['id'];
+        }
 
         if ($search !== '') {
             $where[] = "(a.original_filename LIKE :search)";
@@ -48,15 +55,31 @@ class AssetController {
         );
 
         $collections = Database::fetchAll(
-            "SELECT * FROM collections WHERE user_id = :uid OR is_global = 1 ORDER BY name ASC",
-            ['uid' => $user['id']]
+            "SELECT c.*, COUNT(a.id) as asset_count, COALESCE(SUM(a.file_size_bytes), 0) as total_bytes
+             FROM collections c
+             LEFT JOIN assets a ON c.id = a.collection_id AND a.deleted_at IS NULL
+             WHERE " . ($isAdmin ? "1=1" : "(c.user_id = :uid OR c.is_global = 1)") . "
+             GROUP BY c.id
+             ORDER BY c.name ASC",
+            $isAdmin ? [] : ['uid' => $user['id']]
         );
+
+        $activeCollection = null;
+        if (!empty($collectionId)) {
+            foreach ($collections as $col) {
+                if ((int)$col['id'] === (int)$collectionId) {
+                    $activeCollection = $col;
+                    break;
+                }
+            }
+        }
 
         Response::view('user/assets', [
             'title' => 'My Assets — Workspace',
             'user' => $user,
             'assets' => $assets,
             'collections' => $collections,
+            'activeCollection' => $activeCollection,
             'search' => $search,
             'selectedCollection' => $collectionId,
             'selectedStatus' => $status,
@@ -69,7 +92,8 @@ class AssetController {
         $user = AuthService::currentUser();
         $search = trim($request->query('search', ''));
         $uploaderId = $request->query('uploader');
-        $collectionId = $request->query('collection');
+        $collectionParam = $request->query('collection') ?? $request->query('collection_id') ?? $request->query('folder_id');
+        $collectionId = (!empty($collectionParam) && is_numeric($collectionParam)) ? (int)$collectionParam : null;
         $status = $request->query('status');
         $extension = $request->query('extension');
 
@@ -116,7 +140,23 @@ class AssetController {
         );
 
         $users = Database::fetchAll("SELECT id, name, email FROM users ORDER BY name ASC");
-        $collections = Database::fetchAll("SELECT id, name FROM collections ORDER BY name ASC");
+        $collections = Database::fetchAll(
+            "SELECT c.*, COUNT(a.id) as asset_count, COALESCE(SUM(a.file_size_bytes), 0) as total_bytes
+             FROM collections c
+             LEFT JOIN assets a ON c.id = a.collection_id AND a.deleted_at IS NULL
+             GROUP BY c.id
+             ORDER BY c.name ASC"
+        );
+
+        $activeCollection = null;
+        if (!empty($collectionId)) {
+            foreach ($collections as $col) {
+                if ((int)$col['id'] === (int)$collectionId) {
+                    $activeCollection = $col;
+                    break;
+                }
+            }
+        }
 
         Response::view('admin/assets', [
             'title' => 'All Assets & Selection Manager — Workspace',
@@ -124,6 +164,7 @@ class AssetController {
             'assets' => $assets,
             'users' => $users,
             'collections' => $collections,
+            'activeCollection' => $activeCollection,
             'search' => $search,
             'selectedUploader' => $uploaderId,
             'selectedCollection' => $collectionId,
@@ -137,8 +178,29 @@ class AssetController {
     public function upload(Request $request): void {
         $user = AuthService::currentUser();
         $file = $request->file('file');
-        $collectionId = $request->input('collection_id');
-        $collectionId = !empty($collectionId) ? (int)$collectionId : null;
+        
+        // Robust capture of collection_id or folder_id from POST inputs, GET parameters, or JSON body
+        $rawCollectionId = $request->input('collection_id')
+            ?? $request->input('folder_id')
+            ?? $request->input('collection')
+            ?? $request->query('collection_id')
+            ?? $request->query('folder_id')
+            ?? $request->query('collection');
+
+        $collectionId = null;
+        if (!empty($rawCollectionId) && is_numeric($rawCollectionId)) {
+            $cid = (int)$rawCollectionId;
+            if ($cid > 0) {
+                $isAdmin = ($user['role'] === 'admin');
+                $checkColl = Database::fetch(
+                    "SELECT id, name FROM collections WHERE id = :cid AND (user_id = :uid OR is_global = 1 OR :is_admin = 1)",
+                    ['cid' => $cid, 'uid' => $user['id'], 'is_admin' => $isAdmin ? 1 : 0]
+                );
+                if ($checkColl) {
+                    $collectionId = (int)$checkColl['id'];
+                }
+            }
+        }
 
         try {
             if (!$file) {
@@ -148,15 +210,32 @@ class AssetController {
             // 1. Server-side validation
             $validation = FileValidationService::validateUpload($file, $user);
 
-            // 2. Storage & Database entry
+            // 2. Storage & Database entry with verified collection_id
             $asset = StorageService::storeAsset($validation, $user['id'], $collectionId);
 
+            // Fetch dynamic folder stats for response
+            $collectionStats = null;
+            if ($collectionId) {
+                $collectionStats = Database::fetch(
+                    "SELECT c.id, c.name, COUNT(a.id) as asset_count, COALESCE(SUM(a.file_size_bytes), 0) as total_bytes
+                     FROM collections c
+                     LEFT JOIN assets a ON c.id = a.collection_id AND a.deleted_at IS NULL
+                     WHERE c.id = :cid
+                     GROUP BY c.id",
+                    ['cid' => $collectionId]
+                );
+            }
+
+            $responsePayload = array_merge($asset, [
+                'collection' => $collectionStats
+            ]);
+
             if ($request->isAjax()) {
-                Response::success($asset, 'File uploaded successfully', 201);
+                Response::success($responsePayload, 'File uploaded successfully', 201);
             }
 
             Session::flash('success', "Asset '{$asset['original_filename']}' uploaded successfully.");
-            Response::redirect('/assets');
+            Response::redirect($collectionId ? '/assets?collection=' . $collectionId : '/assets');
         } catch (Exception $e) {
             if ($request->isAjax()) {
                 Response::error($e->getMessage(), 400);

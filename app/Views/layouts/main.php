@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?= \App\Session::getCsrfToken() ?>">
     <title><?= htmlspecialchars($title ?? 'Workspace') ?></title>
+    <!-- Immediate Theme Initialization (No FOUC) -->
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('workspace_theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = saved || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {}
+        })();
+    </script>
     <!-- Modern Inter Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,6 +120,11 @@
                 </div>
             </div>
             <div class="header-right">
+                <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme (Light / Dark)">
+                    <span class="theme-icon-light"><?= \App\Helpers\Icon::render('sun', '', 15) ?></span>
+                    <span class="theme-icon-dark"><?= \App\Helpers\Icon::render('moon', '', 15) ?></span>
+                    <span class="theme-label-text">Theme</span>
+                </button>
                 <span class="badge-vault <?= ($currentUser['role'] ?? '') === 'admin' ? 'badge-admin' : 'badge-user' ?>">
                     <?= \App\Helpers\Icon::render('shield', '', 12) ?>
                     <span><?= strtoupper($currentUser['role'] ?? 'USER') ?> ROLE</span>

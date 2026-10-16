@@ -49,7 +49,13 @@ window.VaultUploader = {
 
     handleFiles(files, listContainer, collectionSelectId) {
         const collSelect = collectionSelectId ? document.getElementById(collectionSelectId) : null;
-        const collectionId = collSelect ? collSelect.value : null;
+        let collectionId = collSelect ? collSelect.value : null;
+
+        // Fallback: If not selected in dropdown, check URL query parameters (?collection=, ?collection_id=, ?folder_id=)
+        if (!collectionId || collectionId === '' || collectionId === '0') {
+            const urlParams = new URLSearchParams(window.location.search);
+            collectionId = urlParams.get('collection') || urlParams.get('collection_id') || urlParams.get('folder_id');
+        }
 
         Array.from(files).forEach(file => {
             this.uploadSingleFile(file, listContainer, collectionId);
@@ -86,8 +92,10 @@ window.VaultUploader = {
 
         const formData = new FormData();
         formData.append('file', file);
-        if (collectionId) {
+        if (collectionId && collectionId !== '' && collectionId !== '0') {
             formData.append('collection_id', collectionId);
+            formData.append('folder_id', collectionId);
+            formData.append('collection', collectionId);
         }
         formData.append('_csrf_token', Vault.csrfToken);
 
@@ -127,6 +135,13 @@ window.VaultUploader = {
                             status.style.color = 'var(--color-success)';
                             Vault.toast(`Asset '${file.name}' uploaded successfully.`, 'success');
                         }
+                    }
+                    if (res.data?.collection) {
+                        const coll = res.data.collection;
+                        const countEl = document.getElementById(`folder-count-${coll.id}`);
+                        const sizeEl = document.getElementById(`folder-size-${coll.id}`);
+                        if (countEl) countEl.textContent = coll.asset_count;
+                        if (sizeEl) sizeEl.textContent = `• ${(coll.total_bytes / (1024 * 1024)).toFixed(2)} MB`;
                     }
                     setTimeout(() => {
                         window.location.reload();

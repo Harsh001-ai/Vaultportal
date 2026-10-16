@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div style="margin-bottom: 1.5rem; padding: 1rem; background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm);">
+        <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: var(--border-radius-sm);">
             <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
                 <input type="checkbox" name="quarantine_enabled" value="1" <?= (($settings['quarantine_enabled'] ?? '1') === '1') ? 'checked' : '' ?> style="margin-top: 0.2rem;" />
                 <div>
@@ -41,6 +41,21 @@
                     </div>
                 </div>
             </label>
+        </div>
+
+        <div style="margin-bottom: 1.5rem; padding: 1.25rem; background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: var(--border-radius-sm);">
+            <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-main); margin-bottom: 0.25rem;">Interface Theme & Appearance</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.85rem;">Select your preferred visual mode for the Workspace panel. Your choice is saved automatically.</div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" class="btn-vault btn-secondary btn-sm" data-set-theme="light" data-theme-choice="light">
+                    <?= \App\Helpers\Icon::render('sun', '', 14) ?>
+                    <span>Light Mode</span>
+                </button>
+                <button type="button" class="btn-vault btn-secondary btn-sm" data-set-theme="dark" data-theme-choice="dark">
+                    <?= \App\Helpers\Icon::render('moon', '', 14) ?>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
         </div>
 
         <button type="submit" class="btn-vault btn-primary">

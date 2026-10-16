@@ -34,14 +34,19 @@
                     </p>
                 </div>
 
-                <div style="border-top: 1px solid var(--border-light); padding-top: 0.85rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+                <div style="border-top: 1px solid var(--border-light); padding-top: 0.85rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
                     <div>
-                        <strong><?= $c['asset_count'] ?></strong> assets
-                        <span style="color: var(--text-muted);">• <?= round($c['total_bytes'] / (1024 * 1024), 2) ?> MB</span>
+                        <strong id="folder-count-<?= $c['id'] ?>"><?= $c['asset_count'] ?></strong> assets
+                        <span id="folder-size-<?= $c['id'] ?>" style="color: var(--text-muted);">• <?= round($c['total_bytes'] / (1024 * 1024), 2) ?> MB</span>
                     </div>
-                    <div style="display: flex; gap: 0.35rem;">
-                        <a href="/assets?collection=<?= $c['id'] ?>" class="btn-vault btn-secondary btn-sm">
-                            Browse
+                    <div style="display: flex; gap: 0.35rem; align-items: center;">
+                        <a href="<?= $isAdmin ? '/admin/assets?collection=' . $c['id'] : '/assets?collection=' . $c['id'] ?>" class="btn-vault btn-secondary btn-sm" title="Browse folder contents">
+                            <?= \App\Helpers\Icon::render('folder', '', 14) ?>
+                            <span>Browse</span>
+                        </a>
+                        <a href="/assets?collection=<?= $c['id'] ?>&upload=1" class="btn-vault btn-primary btn-sm" title="Upload assets to this folder">
+                            <?= \App\Helpers\Icon::render('upload', '', 14) ?>
+                            <span>Upload</span>
                         </a>
                         <?php if (!$c['is_global'] || $isAdmin): ?>
                             <form action="/collections/<?= $c['id'] ?>/delete" method="POST" onsubmit="return confirm('Delete collection? Assets will be kept in unorganized root.');" style="display: inline;">

@@ -11,6 +11,25 @@
     </div>
 </div>
 
+<?php if (!empty($activeCollection)): ?>
+    <!-- Active Folder Banner -->
+    <div style="background: var(--color-primary-subtle); border: 1px solid var(--color-primary-border); border-radius: var(--border-radius-md); padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div class="file-icon-box document" style="background: var(--color-primary); color: #fff;">
+                <?= \App\Helpers\Icon::render('folder', '', 18) ?>
+            </div>
+            <div>
+                <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-primary);">Active Folder View</div>
+                <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);"><?= htmlspecialchars($activeCollection['name']) ?></div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+            <span class="badge-vault badge-admin"><?= count($assets) ?> files (<?= round(($activeCollection['total_bytes'] ?? 0) / (1024 * 1024), 2) ?> MB)</span>
+            <a href="/admin/assets" class="btn-vault btn-secondary btn-sm">Clear Filter</a>
+        </div>
+    </div>
+<?php endif; ?>
+
 <!-- Filters & Search Toolbar -->
 <div class="card-surface" style="padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
     <form action="/admin/assets" method="GET" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
@@ -23,7 +42,7 @@
         </div>
 
         <!-- Uploader filter -->
-        <select name="uploader" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: #fff;">
+        <select name="uploader" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: var(--bg-surface); color: var(--text-main);">
             <option value="">All Uploaders</option>
             <?php foreach ($users as $u): ?>
                 <option value="<?= $u['id'] ?>" <?= ($selectedUploader == $u['id']) ? 'selected' : '' ?>>
@@ -33,7 +52,7 @@
         </select>
 
         <!-- Collection filter -->
-        <select name="collection" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: #fff;">
+        <select name="collection" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: var(--bg-surface); color: var(--text-main);">
             <option value="">All Collections</option>
             <?php foreach ($collections as $c): ?>
                 <option value="<?= $c['id'] ?>" <?= ($selectedCollection == $c['id']) ? 'selected' : '' ?>>
@@ -43,7 +62,7 @@
         </select>
 
         <!-- Extension filter -->
-        <select name="extension" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: #fff;">
+        <select name="extension" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: var(--bg-surface); color: var(--text-main);">
             <option value="">All File Types</option>
             <option value="png" <?= ($selectedExtension === 'png') ? 'selected' : '' ?>>PNG</option>
             <option value="jpg" <?= ($selectedExtension === 'jpg') ? 'selected' : '' ?>>JPG</option>
@@ -54,7 +73,7 @@
         </select>
 
         <!-- Status filter -->
-        <select name="status" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: #fff;">
+        <select name="status" style="padding: 0.45rem 0.75rem; border: 1px solid var(--border-light); border-radius: var(--border-radius-sm); font-size: 0.85rem; background: var(--bg-surface); color: var(--text-main);">
             <option value="">All Statuses</option>
             <option value="ready" <?= ($selectedStatus === 'ready') ? 'selected' : '' ?>>Ready</option>
             <option value="quarantined" <?= ($selectedStatus === 'quarantined') ? 'selected' : '' ?>>Quarantined</option>
